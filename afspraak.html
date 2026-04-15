@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iFixItEasy | Reparatie Afspraak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/afspraak.css" />
+  </head>
+  <body class="appointment-body">
+    <main class="appointment-shell">
+      <header class="appointment-header">
+        <a class="back-home-link" href="index.html" aria-label="Terug naar home">
+          <span aria-hidden="true">←</span>
+          Terug naar home
+        </a>
+        <span class="badge">iFixItEasy afspraakportal</span>
+      </header>
+
+      <div class="appointment-layout">
+        <section class="card">
+          <p class="appointment-kicker">Reparatie afspraak</p>
+          <h1 class="appointment-title">Plan je reparatie in minder dan 1 minuut</h1>
+          <p class="card-subtitle">
+            Volg de stappen hieronder en reserveer direct een beschikbaar tijdslot dat bij je agenda past.
+          </p>
+
+          <form id="appointment-form" class="form-grid form-space-top">
+            <section class="step-card">
+              <h2 class="step-title">Stap 1 · Jouw gegevens</h2>
+              <div class="form-grid form-grid-2">
+                <div class="form-grid form-gap-small">
+                  <label class="form-label" for="customerName">Naam</label>
+                  <input class="form-input" id="customerName" name="customerName" type="text" required />
+                </div>
+                <div class="form-grid form-gap-small">
+                  <label class="form-label" for="customerPhone">Telefoonnummer</label>
+                  <input class="form-input" id="customerPhone" name="customerPhone" type="tel" required />
+                </div>
+                <div class="form-grid form-gap-small form-col-2">
+                  <label class="form-label" for="customerEmail">E-mail (optioneel)</label>
+                  <input class="form-input" id="customerEmail" name="customerEmail" type="email" />
+                </div>
+              </div>
+            </section>
+
+            <section class="step-card">
+              <h2 class="step-title">Stap 2 · Toestel en probleem</h2>
+              <div class="form-grid form-grid-2">
+                <div class="form-grid form-gap-small">
+                  <label class="form-label" for="phoneId">Toestel</label>
+                  <select class="form-select" id="phoneId" name="phoneId" required>
+                    <option value="">Laden...</option>
+                  </select>
+                </div>
+                <div class="form-grid form-gap-small">
+                  <label class="form-label" for="issueTypeId">Probleem</label>
+                  <select class="form-select" id="issueTypeId" name="issueTypeId" required>
+                    <option value="">Laden...</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="step-card">
+              <h2 class="step-title">Stap 3 · Datum en tijdslot</h2>
+              <div class="form-grid form-gap-small">
+                <label class="form-label" for="appointmentDate">Datum</label>
+                <input class="form-input" id="appointmentDate" name="appointmentDate" type="date" required />
+                <p class="date-helper-text">Je kunt geen datum in het verleden kiezen.</p>
+              </div>
+
+              <fieldset class="slot-fieldset">
+                <legend class="form-label">Beschikbare tijdsloten</legend>
+                <div id="time-slots" class="slot-grid slot-grid-two"></div>
+              </fieldset>
+            </section>
+
+            <section class="step-card">
+              <h2 class="step-title">Stap 4 · Extra details</h2>
+              <div class="form-grid form-gap-small">
+                <label class="form-label" for="notes">Extra informatie (optioneel)</label>
+                <textarea class="form-textarea" id="notes" name="notes" rows="4"></textarea>
+              </div>
+            </section>
+
+            <button class="btn btn-primary btn-full" type="submit">Afspraak bevestigen</button>
+          </form>
+
+          <p id="appointment-feedback" class="appointment-feedback" role="status"></p>
+        </section>
+
+        <aside class="aside-grid">
+          <section class="card">
+            <h2 class="card-title">Wat gebeurt er na je aanvraag?</h2>
+            <ol class="appointment-list">
+              <li>Je ontvangt direct een bevestiging op het scherm.</li>
+              <li>Ons team controleert je toestel en gekozen tijdslot.</li>
+              <li>Wij nemen contact op als extra informatie nodig is.</li>
+            </ol>
+          </section>
+
+          <section class="card">
+            <h2 class="card-title">Hulp nodig?</h2>
+            <p class="card-subtitle">Bel ons direct voor spoedreparaties of advies over je probleem.</p>
+            <a class="btn btn-secondary btn-full support-call-btn" href="tel:+31655820353">+31 6 55 82 03 53</a>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <script src="assets/js/afspraak.js"></script>
+  </body>
+</html>

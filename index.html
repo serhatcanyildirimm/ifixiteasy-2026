@@ -20,7 +20,9 @@
   <body>
     <header class="site-header" id="top">
       <nav class="nav container" aria-label="Hoofdnavigatie">
-        <a class="logo" href="#top">iFixItEasy</a>
+        <a class="logo" href="#top" aria-label="iFixItEasy home">
+          <img class="logo-image" src="assets/images/iFixItEasy-logo.png" alt="iFixItEasy logo" />
+        </a>
         <button class="menu-toggle" aria-label="Menu openen" aria-expanded="false">
           <span></span>
           <span></span>
@@ -28,11 +30,10 @@
         <ul class="nav-links">
           <li><a href="#services">Reparaties</a></li>
           <li><a href="#why-us">Waarom Wij</a></li>
-          <li><a href="#pricing">Prijzen</a></li>
           <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#cta">Afspraak</a></li>
+          <li><a href="afspraak.html">Afspraak</a></li>
         </ul>
-        <a class="nav-phone" href="tel:+31101234567" aria-label="Bel ons op +31 10 123 4567">+31 10 123 4567</a>
+        <a class="nav-phone" href="tel:+31655820353" aria-label="Bel ons op +31 6 55 82 03 53">+31 6 55 82 03 53</a>
       </nav>
     </header>
 
@@ -48,63 +49,53 @@
             </h1>
             <p class="hero-subtext" id="hero-subtext">De meeste reparaties zijn binnen 30 minuten klaar</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#cta">Reparatie Boeken</a>
+              <a class="btn btn-primary" href="afspraak.html">Reparatie Boeken</a>
             </div>
             
           </div>
           <div class="hero-media reveal">
-            <div class="premium-slider" id="premium-slider">
-              <button class="slider-arrow slider-arrow-left" aria-label="Vorige slide">‹</button>
-              <div class="slider-viewport">
-                <div class="slider-track">
-                  <article
-                    class="slider-slide"
-                    data-title="iPhone Schermherstel"
-                    data-description="Binnen 30 minuten gerepareerd met premium onderdelen en functionele eindcontrole."
-                    data-hero-line-one="Snel &amp; Betrouwbaar"
-                    data-hero-line-two="Je Telefoon"
-                    data-hero-line-three="Gerepareerd"
-                    data-hero-subtext="De meeste reparaties zijn binnen 30 minuten klaar"
-                  >
-                    <img class="slide-media" src="assets/images/apple-iphone-17-pro-max-256gb-blauw.webp" alt="iPhone scherm reparatie" />
-                  </article>
-                  <article
-                    class="slider-slide"
-                    data-title="Samsung Batterijservice"
-                    data-description="Nieuwe batterij, stabiele prestaties en professionele gezondheidstest op dezelfde dag."
-                    data-hero-line-one="Langere Levensduur"
-                    data-hero-line-two="Voor Jouw Samsung"
-                    data-hero-line-three="Binnen 30 Minuten"
-                    data-hero-subtext="Snelle batterijvervanging met directe kwaliteitscontrole en garantie."
-                  >
-                    <img class="slide-media" src="assets/images/apple-iphone-17-pro-max-256gb-blauw.webp" alt="Samsung batterij vervangen" />
-                  </article>
-                  <article
-                    class="slider-slide"
-                    data-title="Waterschade Diagnose"
-                    data-description="Diepgaande inspectie, ultrasoon reiniging en heldere prijsopgave zonder verrassingen."
-                    data-hero-line-one="Waterschade?"
-                    data-hero-line-two="Wij Herstellen"
-                    data-hero-line-three="Je Toestel Veilig"
-                    data-hero-subtext="Uitgebreide diagnose en professioneel herstel om data en toestel te redden."
-                  >
-                    <img class="slide-media" src="assets/images/waterschade.jpg" alt="Waterschade diagnose" />
-                  </article>
-                  <article
-                    class="slider-slide"
-                    data-title="Laadpoort &amp; Datafix"
-                    data-description="Snelle reparatie van laad- en dataproblemen voor een betrouwbaar dagelijks gebruik."
-                    data-hero-line-one="Laadproblemen"
-                    data-hero-line-two="Direct Opgelost"
-                    data-hero-line-three="Zonder Wachttijd"
-                    data-hero-subtext="Van laadpoort tot dataconnectie: wij fixen het snel en vakkundig."
-                  >
-                    <img class="slide-media" src="assets/images/apple-iphone-17-pro-max-256gb-blauw.webp" alt="Data en laadpoort reparatie" />
-                  </article>
-                </div>
-              </div>
-              <button class="slider-arrow slider-arrow-right" aria-label="Volgende slide">›</button>
-              <div class="slider-dots" aria-label="Slider paginatie"></div>
+            <div class="hero-fade-slider" id="hero-fade-slider">
+              <article
+                class="hero-fade-slide is-active"
+                data-hero-line-one="Snel &amp; Betrouwbaar"
+                data-hero-line-two="Je Telefoon"
+                data-hero-line-three="Gerepareerd"
+                data-hero-subtext="De meeste reparaties zijn binnen 30 minuten klaar"
+              >
+                <img class="hero-fade-media" src="assets/images/apple-iphone-17-pro-max-256gb-blauw.webp" alt="iPhone scherm reparatie" />
+              </article>
+              <article
+                class="hero-fade-slide"
+                data-hero-line-one="Langere Levensduur"
+                data-hero-line-two="Voor Jouw Samsung"
+                data-hero-line-three="Binnen 30 Minuten"
+                data-hero-subtext="Snelle batterijvervanging met directe kwaliteitscontrole en garantie."
+              >
+                <img class="hero-fade-media" src="assets/images/7d3ea32f601b45ab833bdde8e082d746_samsungs.png" alt="Samsung batterij vervangen" />
+              </article>
+              <article
+                class="hero-fade-slide"
+                data-hero-line-one="Waterschade?"
+                data-hero-line-two="Wij Herstellen"
+                data-hero-line-three="Je Toestel Veilig"
+                data-hero-subtext="Uitgebreide diagnose en professioneel herstel om data en toestel te redden."
+              >
+                <img class="hero-fade-media" src="assets/images/waterschade.jpg" alt="Waterschade diagnose" />
+              </article>
+              <article
+                class="hero-fade-slide"
+                data-hero-line-one="Laadproblemen"
+                data-hero-line-two="Direct Opgelost"
+                data-hero-line-three="Zonder Wachttijd"
+                data-hero-subtext="Van laadpoort tot dataconnectie: wij fixen het snel en vakkundig."
+              >
+                <img
+                  class="hero-fade-media hero-fade-media-contain"
+                  src="assets/images/ios-26-iphone-16-pro-settings-battery-slow-charger.png"
+                  alt="Data en laadpoort reparatie"
+                />
+              </article>
+              <div class="hero-fade-dots" aria-label="Hero slider paginatie"></div>
             </div>
           </div>
         </div>
@@ -145,34 +136,42 @@
         <div class="container">
           <div class="section-heading reveal">
             <p class="eyebrow">Onze Reparaties</p>
-            <h2>Professionele Reparaties Voor Elk Groot Merk</h2>
+            <h2>Clean, Snelle En Betrouwbare Reparaties</h2>
           </div>
-          <div class="card-grid">
-            <article class="card reveal">
-              <div class="icon">🍎</div>
-              <h3>iPhone Reparatie</h3>
-              <p>Herstel van Face ID, laadpoort, speaker en moederbordproblemen.</p>
-            </article>
-            <article class="card reveal">
-              <div class="icon">📱</div>
-              <h3>Samsung Reparatie</h3>
-              <p>Van Galaxy-schermproblemen tot software- en camerareparaties.</p>
-            </article>
-            <article class="card reveal">
-              <div class="icon">🪟</div>
-              <h3>Scherm Vervangen</h3>
-              <p>Gebarsten schermen vervangen met premium onderdelen en testen.</p>
-            </article>
-            <article class="card reveal">
-              <div class="icon">🔋</div>
-              <h3>Batterij Vervangen</h3>
-              <p>Herstel je batterijduur en prestaties in minder dan 30 minuten.</p>
-            </article>
-            <article class="card reveal">
-              <div class="icon">💧</div>
-              <h3>Waterschade Reparatie</h3>
-              <p>Uitgebreide diagnose en reiniging voor toestellen met vochtschade.</p>
-            </article>
+          <div class="repairs-layout">
+            <div class="repairs-media reveal">
+              <img src="assets/images/telefoonreparatie.jpg" alt="Technicus voert telefoonreparatie uit" />
+            </div>
+            <div class="repairs-list">
+              <article class="repair-item reveal">
+                <span class="repair-icon" aria-hidden="true"><i class="bi bi-phone"></i></span>
+                <div>
+                  <h3>Scherm Reparatie</h3>
+                  <p>Barsten, zwarte schermen en touchproblemen snel opgelost met premium onderdelen.</p>
+                </div>
+              </article>
+              <article class="repair-item reveal">
+                <span class="repair-icon" aria-hidden="true"><i class="bi bi-battery-charging"></i></span>
+                <div>
+                  <h3>Batterij Vervangen</h3>
+                  <p>Je toestel weer een hele dag mee met een nieuwe batterij en directe health-check.</p>
+                </div>
+              </article>
+              <article class="repair-item reveal">
+                <span class="repair-icon" aria-hidden="true"><i class="bi bi-usb-symbol"></i></span>
+                <div>
+                  <h3>Laadpoort Reparatie</h3>
+                  <p>Geen verbinding of traag laden? Wij herstellen je laadpoort veilig en nauwkeurig.</p>
+                </div>
+              </article>
+              <article class="repair-item reveal">
+                <span class="repair-icon" aria-hidden="true"><i class="bi bi-droplet-half"></i></span>
+                <div>
+                  <h3>Waterschade Herstel</h3>
+                  <p>Professionele diagnose, reiniging en herstel om schade te beperken en data te redden.</p>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -204,36 +203,7 @@
         </div>
       </section>
 
-      <section class="section" id="pricing">
-        <div class="container">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Prijsindicatie</p>
-            <h2>Populaire Reparaties Tegen Scherpe Tarieven</h2>
-          </div>
-          <div class="pricing-grid">
-            <article class="price-card reveal">
-              <h3>iPhone Scherm</h3>
-              <p class="price">Vanaf €89</p>
-              <p>Hoogwaardige schermvervanging met volledige functietest.</p>
-            </article>
-            <article class="price-card reveal">
-              <h3>Samsung Batterij</h3>
-              <p class="price">Vanaf €59</p>
-              <p>Snelle batterijwissel inclusief batterijgezondheid-calibratie.</p>
-            </article>
-            <article class="price-card reveal">
-              <h3>Waterschade Controle</h3>
-              <p class="price">Vanaf €39</p>
-              <p>Diepgaande diagnose en prijsopgave op dezelfde dag.</p>
-            </article>
-          </div>
-          <div class="center reveal">
-            <a class="btn btn-secondary" href="#cta">Bekijk volledige prijslijst</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section-alt" id="reviews">
+      <section class="section" id="reviews">
         <div class="container">
           <div class="section-heading reveal">
             <p class="eyebrow">Klantbeoordelingen</p>
@@ -264,7 +234,7 @@
           <div class="cta-panel">
             <h2>Laat je telefoon vandaag nog repareren</h2>
             <p>Plan direct een afspraak en laat je toestel weer perfect werken.</p>
-            <a class="btn btn-accent" href="tel:+31101234567">Afspraak Inplannen</a>
+            <a class="btn btn-accent" href="afspraak.html">Afspraak Inplannen</a>
           </div>
         </div>
       </section>
@@ -273,28 +243,28 @@
     <footer class="footer">
       <div class="container footer-grid">
         <div>
-          <h3>iFixItEasy</h3>
+          <h3>iFixiteasy.nl</h3>
           <p>Snelle, vriendelijke en betaalbare smartphone reparatieservice.</p>
         </div>
         <div>
           <h4>Contact</h4>
-          <p>+31 10 123 4567</p>
-          <p>hello@ifixiteasy.com</p>
+          <p>+31 6 55 82 03 53</p>
+          <p>Info@ifixiteasy.nl</p>
         </div>
         <div>
           <h4>Locatie</h4>
-          <p>Nieuwe Binnenweg 100</p>
-          <p>3015 XE Rotterdam</p>
+          <p>Troelstralaan 37</p>
+          <p>7204 LC Zutphen</p>
         </div>
         <div>
           <h4>Openingstijden</h4>
-          <p>Ma - Vr: 09:00 - 19:00</p>
-          <p>Za: 10:00 - 17:00</p>
+          <p>Ma - Vr: 09:00 - 17:30</p>
+          <p>Za: 09:00 - 17:00</p>
           <p>Zo: Gesloten</p>
         </div>
       </div>
       <div class="footer-bottom container">
-        <p>© 2026 iFixItEasy. Alle rechten voorbehouden.</p>
+        <p>© 2026 iFixiteasy.nl. Alle rechten voorbehouden. KVK: 69787611</p>
         <div class="social-links">
           <a href="#" aria-label="Instagram">Instagram</a>
           <a href="#" aria-label="Facebook">Facebook</a>

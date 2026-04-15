@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iFixItEasy | Admin Beschikbaarheid</title>
+    <link rel="stylesheet" href="../assets/css/admin.css?v=6" />
+  </head>
+  <body class="admin-body">
+    <main class="admin-layout-root">
+      <section id="admin-login-panel" class="login-card">
+        <p class="login-card__kicker">iFixItEasy Admin</p>
+        <h1 class="login-card__title">Inloggen</h1>
+        <p class="login-card__subtitle">Log in om beschikbaarheid te beheren.</p>
+        <form id="admin-login-form" class="form-stack">
+          <label class="field-label" for="adminEmail">E-mail</label>
+          <input id="adminEmail" class="field-control" type="email" required />
+          <label class="field-label" for="adminPassword">Wachtwoord</label>
+          <input id="adminPassword" class="field-control" type="password" required />
+          <button class="btn btn--primary" type="submit">Inloggen</button>
+        </form>
+        <p class="admin-feedback" id="admin-login-feedback" role="status"></p>
+      </section>
+
+      <section id="admin-dashboard" class="workspace hidden">
+        <aside class="dashboard__sidebar">
+          <div class="brand-card">
+            <h2 class="brand-card__title">iFixItEasy Admin</h2>
+            <p class="brand-card__subtitle">Duidelijke navigatie</p>
+          </div>
+          <nav class="side-nav">
+            <a class="side-nav__item" href="./index.html">Overzicht</a>
+            <a class="side-nav__item" href="./toestellen.html">Toestellen</a>
+            <a class="side-nav__item active" href="./beschikbaarheid.html">Beschikbaarheid</a>
+            <a class="side-nav__item" href="./afspraken.html">Afspraken</a>
+            <a class="side-nav__item" href="./veiligheid.html">Veiligheid</a>
+          </nav>
+        </aside>
+
+        <div>
+          <header class="workspace-topbar">
+            <div class="workspace-topbar__brand">
+              <h1>Beschikbaarheid</h1>
+              <p>Schakel dagen en tijdsloten aan of uit.</p>
+            </div>
+            <div class="workspace-topbar__actions">
+              <div class="avail-week-nav">
+                <button id="avail-prev-week" class="btn btn--secondary avail-nav-btn" type="button">&#8592;</button>
+                <span id="avail-week-label" class="avail-week-label"></span>
+                <button id="avail-next-week" class="btn btn--secondary avail-nav-btn" type="button">&#8594;</button>
+              </div>
+              <button id="admin-logout-btn" class="btn btn--secondary" type="button">Uitloggen</button>
+            </div>
+          </header>
+
+          <div id="avail-calendar" class="avail-calendar"></div>
+        </div>
+      </section>
+    </main>
+    <script src="../assets/js/admin.js"></script>
+    <script src="../assets/js/beschikbaarheid.js"></script>
+  </body>
+</html>
