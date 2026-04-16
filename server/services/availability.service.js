@@ -122,7 +122,7 @@ const getPublicAvailabilityByDate = async (date) => {
      WHERE s.slot_date = $1
        AND s.is_active = TRUE
      GROUP BY s.id
-     HAVING booked_count < s.capacity
+     HAVING COUNT(a.id) < s.capacity
      ORDER BY s.start_time ASC`,
     [date]
   );
