@@ -17,7 +17,7 @@ const getDashboardSummary = async () => {
   );
 
   const [upcomingAppointments] = await pool.query(
-    `SELECT a.id, a.customer_name, a.status, s.slot_date, s.start_time, p.brand, p.model_name
+    `SELECT a.id, a.customer_name, a.status, DATE_FORMAT(s.slot_date, '%Y-%m-%d') AS slot_date, s.start_time, s.end_time, p.brand, p.model_name
      FROM appointments a
      INNER JOIN availability_slots s ON s.id = a.slot_id
      INNER JOIN phones p ON p.id = a.phone_id

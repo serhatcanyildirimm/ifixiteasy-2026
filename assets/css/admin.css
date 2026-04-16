@@ -192,6 +192,290 @@ body.admin-body {
   color: #111827;
 }
 
+/* ── Dashboard maandkalender (overzicht) ── */
+
+.surface--calendar {
+  margin-top: 1rem;
+}
+
+.surface-calendar__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.surface-calendar__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-cal-nav-btn {
+  padding: 0.35rem 0.65rem;
+  font-size: 1rem;
+  line-height: 1;
+  min-width: 2.5rem;
+}
+
+.dashboard-cal-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #374151;
+  min-width: 10rem;
+  text-align: center;
+}
+
+.dashboard-calendar {
+  margin-top: 0.85rem;
+}
+
+.dashboard-cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 0.35rem;
+}
+
+.dashboard-cal-weekday {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
+.dashboard-cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.dashboard-cal-day {
+  min-height: 5.5rem;
+  padding: 0.35rem 0.3rem 0.4rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.dashboard-cal-day:hover,
+.dashboard-cal-day:focus-visible {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+  outline: none;
+}
+
+.dashboard-cal-day--muted {
+  background: #f9fafb;
+  opacity: 0.72;
+}
+
+.dashboard-cal-day--today {
+  border-color: #2563eb;
+  background: #f8fafc;
+}
+
+.dashboard-cal-day__num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dashboard-cal-day__appts {
+  margin-top: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.dashboard-cal-chip {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0.12rem 0.2rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-cal-more {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #6b7280;
+  padding: 0.1rem 0;
+}
+
+.admin-cal-dialog {
+  width: min(520px, 94vw);
+  max-height: min(88vh, 640px);
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+  color: #111827;
+}
+
+.admin-cal-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+.admin-cal-dialog__shell {
+  position: relative;
+  padding: 1.2rem 1.35rem 1.35rem;
+}
+
+.admin-cal-dialog__close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4f6;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+}
+
+.admin-cal-dialog__close:hover {
+  background: #e5e7eb;
+}
+
+.admin-cal-dialog__title {
+  margin: 0;
+  padding-right: 2.25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.admin-cal-dialog__body {
+  margin-top: 0.85rem;
+  max-height: min(58vh, 420px);
+  overflow-y: auto;
+}
+
+.admin-cal-dialog__empty {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.admin-cal-dialog__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.admin-cal-dialog__item {
+  list-style: none;
+  font-size: 0.82rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-cal-dialog__item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.admin-cal-dialog__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.65rem;
+}
+
+.admin-cal-dialog__time {
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.admin-cal-dialog__name {
+  font-weight: 600;
+  color: #111827;
+  flex: 1;
+  min-width: 6rem;
+}
+
+.admin-cal-dialog__meta {
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.admin-cal-dialog__wa {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.admin-cal-dialog__footer {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.admin-cal-dialog__footer .btn {
+  width: 100%;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.admin-cal-dialog__item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  margin: 0 -0.25rem;
+  padding: 0.15rem 0.25rem 0.35rem;
+}
+
+.admin-cal-dialog__item-link:hover {
+  background: #f1f5f9;
+}
+
+.admin-cal-dialog__item-link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.admin-cal-dialog__item .admin-cal-dialog__wa {
+  margin: 0.15rem 0 0 0.25rem;
+  display: inline-block;
+}
+
+@media (max-width: 720px) {
+  .dashboard-cal-day {
+    min-height: 4.25rem;
+    padding: 0.25rem 0.2rem;
+  }
+
+  .dashboard-cal-chip {
+    font-size: 0.58rem;
+  }
+}
+
 /* ── Workspace grids ── */
 
 .workspace-grid {
@@ -221,6 +505,53 @@ body.admin-body {
   margin: 0.3rem 0 0;
   font-size: 0.87rem;
   color: #6b7280;
+}
+
+.surface__subtitle--calendar {
+  margin-top: 0.25rem;
+}
+
+.surface__header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.surface__header-row .surface__title {
+  margin: 0;
+}
+
+.surface__linkout {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.surface__linkout:hover {
+  text-decoration: underline;
+}
+
+a.admin-row--link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: inherit;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+a.admin-row--link:hover {
+  background: #f8fafc;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+}
+
+a.admin-row--link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
 }
 
 /* ── Forms ── */
@@ -300,6 +631,41 @@ body.admin-body {
 .btn--secondary:hover,
 .btn--ghost:hover {
   background: #f3f4f6;
+}
+
+.btn--whatsapp {
+  text-decoration: none;
+  color: #fff;
+  background: #25d366;
+  border-color: #1da851;
+}
+
+.btn--whatsapp:hover {
+  background: #1ebe57;
+  border-color: #179443;
+}
+
+.btn--danger {
+  color: #b91c1c;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.btn--danger:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.admin-row-slot {
+  margin: 0.28rem 0 0;
+  color: #111827;
+  font-size: 0.9rem;
+}
+
+.admin-row-meta {
+  margin: 0.2rem 0 0;
+  color: #6b7280;
+  font-size: 0.82rem;
 }
 
 /* ── Pills / badges ── */

@@ -16,6 +16,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/booking-modal.css" />
   </head>
   <body>
     <header class="site-header" id="top">
@@ -31,7 +32,7 @@
           <li><a href="#services">Reparaties</a></li>
           <li><a href="#why-us">Waarom Wij</a></li>
           <li><a href="#reviews">Reviews</a></li>
-          <li><a href="afspraak.html">Afspraak</a></li>
+          <li><button type="button" class="nav-text-btn" data-open-booking>Afspraak</button></li>
         </ul>
         <a class="nav-phone" href="tel:+31655820353" aria-label="Bel ons op +31 6 55 82 03 53">+31 6 55 82 03 53</a>
       </nav>
@@ -49,7 +50,7 @@
             </h1>
             <p class="hero-subtext" id="hero-subtext">De meeste reparaties zijn binnen 30 minuten klaar</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="afspraak.html">Reparatie Boeken</a>
+              <button type="button" class="btn btn-primary" data-open-booking>Reparatie Boeken</button>
             </div>
             
           </div>
@@ -104,27 +105,27 @@
       <section class="service-slider-bar section-alt">
         <div class="container">
           <div class="service-slider-track" aria-label="Snelle servicecategorieen">
-            <a class="service-chip" href="#services">
+            <a class="service-chip" href="#" data-booking-category="smartphone">
               <span class="service-chip-icon"><i class="bi bi-phone"></i></span>
               <span class="service-chip-label">Smartphone Reparatie</span>
             </a>
-            <a class="service-chip" href="#services">
+            <a class="service-chip" href="#" data-booking-category="tablet">
               <span class="service-chip-icon"><i class="bi bi-tablet"></i></span>
               <span class="service-chip-label">Tablet Reparatie</span>
             </a>
-            <a class="service-chip" href="#services">
+            <a class="service-chip" href="#" data-booking-category="laptop">
               <span class="service-chip-icon"><i class="bi bi-laptop"></i></span>
               <span class="service-chip-label">Laptop Reparatie</span>
             </a>
-            <a class="service-chip" href="#services">
+            <a class="service-chip" href="#" data-booking-category="computer">
               <span class="service-chip-icon"><i class="bi bi-display"></i></span>
               <span class="service-chip-label">Computer Reparatie</span>
             </a>
-            <a class="service-chip" href="#services">
+            <a class="service-chip" href="#" data-booking-category="watch">
               <span class="service-chip-icon"><i class="bi bi-smartwatch"></i></span>
               <span class="service-chip-label">Watch Reparatie</span>
             </a>
-            <a class="service-chip" href="#services">
+            <a class="service-chip" href="#" data-booking-category="console">
               <span class="service-chip-icon"><i class="bi bi-controller"></i></span>
               <span class="service-chip-label">Console Reparatie</span>
             </a>
@@ -234,11 +235,102 @@
           <div class="cta-panel">
             <h2>Laat je telefoon vandaag nog repareren</h2>
             <p>Plan direct een afspraak en laat je toestel weer perfect werken.</p>
-            <a class="btn btn-accent" href="afspraak.html">Afspraak Inplannen</a>
+            <button type="button" class="btn btn-accent" data-open-booking>Afspraak Inplannen</button>
           </div>
         </div>
       </section>
     </main>
+
+    <dialog id="booking-modal" class="booking-modal" aria-labelledby="booking-modal-title">
+      <div class="booking-modal__shell">
+        <button type="button" id="booking-modal-close" class="booking-modal__close" aria-label="Sluiten">
+          ×
+        </button>
+        <h2 id="booking-modal-title" class="booking-modal__title">Reparatie boeken</h2>
+        <div id="booking-modal-body" class="booking-modal__body">
+          <div id="booking-step-category" class="booking-panel">
+            <p class="booking-step-kicker">Stap 1 — Product</p>
+            <div class="booking-global-search">
+              <label for="booking-global-search-input">Zoek in alle producten</label>
+              <input
+                id="booking-global-search-input"
+                type="search"
+                autocomplete="off"
+                placeholder="Zoek op merk, model of type…"
+              />
+              <div id="booking-global-search-results" class="booking-search-results" hidden></div>
+            </div>
+            <div id="booking-category-tiles" class="booking-tiles" role="group" aria-label="Productcategorie"></div>
+            <div id="booking-inline-msg" class="booking-hint" hidden></div>
+          </div>
+
+          <div id="booking-step-brand" class="booking-panel" hidden>
+            <p class="booking-step-kicker">Stap 2 — Merk</p>
+            <p class="booking-hint" style="margin-top: 0">Kies je merk voor smartphone-reparatie.</p>
+            <div id="booking-brand-tiles" class="booking-tiles" role="group" aria-label="Smartphone merk"></div>
+          </div>
+
+          <div id="booking-step-model" class="booking-panel" hidden>
+            <p class="booking-step-kicker">Stap 3 — Model</p>
+            <div class="booking-combobox-block">
+              <label for="booking-model-search">Zoek en kies je model</label>
+              <input
+                id="booking-model-search"
+                class="booking-combobox__search"
+                type="search"
+                autocomplete="off"
+                placeholder="Typ om te filteren…"
+                aria-controls="booking-model-list"
+              />
+              <ul id="booking-model-list" class="booking-combobox__list" role="listbox" aria-label="Modellen"></ul>
+            </div>
+            <button type="button" id="booking-model-next" class="booking-next-btn" disabled>Volgende</button>
+          </div>
+
+          <div id="booking-step-booking" class="booking-panel" hidden>
+            <p class="booking-step-kicker">Afspraak afronden</p>
+            <p id="booking-selected-phone-label" class="booking-selected-phone"></p>
+            <form id="booking-form" class="booking-form-grid">
+              <div>
+                <label for="booking-issue-type">Probleem</label>
+                <select id="booking-issue-type" name="issueTypeId" required>
+                  <option value="">Laden…</option>
+                </select>
+              </div>
+              <div>
+                <label for="booking-appointment-date">Datum</label>
+                <input id="booking-appointment-date" name="appointmentDate" type="date" required />
+              </div>
+              <div>
+                <span class="booking-step-kicker" style="margin-bottom: 0.35rem">Tijdslot</span>
+                <div id="booking-time-slots" class="booking-slot-grid" role="group" aria-label="Beschikbare tijden"></div>
+              </div>
+              <div>
+                <label for="booking-customer-name">Naam</label>
+                <input id="booking-customer-name" name="customerName" type="text" required />
+              </div>
+              <div>
+                <label for="booking-customer-phone">Telefoonnummer</label>
+                <input id="booking-customer-phone" name="customerPhone" type="tel" required />
+              </div>
+              <div>
+                <label for="booking-customer-email">E-mail (optioneel)</label>
+                <input id="booking-customer-email" name="customerEmail" type="email" />
+              </div>
+              <div>
+                <label for="booking-notes">Extra informatie (optioneel)</label>
+                <textarea id="booking-notes" name="notes" rows="3"></textarea>
+              </div>
+              <button type="submit" class="booking-next-btn">Afspraak bevestigen</button>
+            </form>
+            <p id="booking-feedback" class="booking-feedback" role="status"></p>
+          </div>
+        </div>
+        <div class="booking-wizard-footer">
+          <button type="button" id="booking-back-btn" data-booking-back hidden>Terug</button>
+        </div>
+      </div>
+    </dialog>
 
     <footer class="footer">
       <div class="container footer-grid">
@@ -274,5 +366,6 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/booking-modal.js"></script>
   </body>
 </html>

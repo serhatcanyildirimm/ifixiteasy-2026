@@ -18,6 +18,7 @@ const {
 const {
   getAdminAppointments,
   updateAppointmentStatus,
+  deleteAppointment,
 } = require("../services/appointments.service");
 const { getDashboardSummary } = require("../services/dashboard.service");
 
@@ -104,24 +105,24 @@ router.get("/phones", async (req, res) => {
 });
 
 router.post("/phones", async (req, res) => {
-  const { brand, modelName, imageUrl } = req.body || {};
+  const { brand, modelName, imageUrl, deviceCategory } = req.body || {};
   if (!brand || !modelName) {
     return res.status(400).json({ message: "Merk en model zijn verplicht." });
   }
 
-  const id = await createPhone({ brand, modelName, imageUrl });
+  const id = await createPhone({ brand, modelName, imageUrl, deviceCategory });
   return res.status(201).json({ id });
 });
 
 router.patch("/phones/:id", async (req, res) => {
-  const { brand, modelName, isActive, imageUrl } = req.body || {};
+  const { brand, modelName, isActive, imageUrl, deviceCategory } = req.body || {};
   const id = Number(req.params.id);
 
   if (!brand || !modelName || typeof isActive !== "boolean") {
     return res.status(400).json({ message: "Ongeldige gegevens voor telefoonupdate." });
   }
 
-  await updatePhone(id, { brand, modelName, isActive, imageUrl });
+  await updatePhone(id, { brand, modelName, isActive, imageUrl, deviceCategory });
   return res.status(204).send();
 });
 
@@ -198,6 +199,18 @@ router.patch("/appointments/:id/status", async (req, res) => {
   }
 
   await updateAppointmentStatus(id, status);
+  return res.status(204).send();
+});
+
+router.delete("/appointments/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({ message: "Ongeldig afspraak-id." });
+  }
+  const removed = await deleteAppointment(id);
+  if (!removed) {
+    return res.status(404).json({ message: "Afspraak niet gevonden." });
+  }
   return res.status(204).send();
 });
 

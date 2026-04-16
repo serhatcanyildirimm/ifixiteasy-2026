@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iFixItEasy | Admin Overzicht</title>
-    <link rel="stylesheet" href="../assets/css/admin.css?v=6" />
+    <link rel="stylesheet" href="../assets/css/admin.css?v=10" />
   </head>
   <body class="admin-body">
     <main class="admin-layout-root">
@@ -26,7 +26,7 @@
         <aside class="dashboard__sidebar">
           <div class="brand-card">
             <h2 class="brand-card__title">iFixItEasy Admin</h2>
-            <p class="brand-card__subtitle">Duidelijke navigatie</p>
+            <p class="brand-card__subtitle">welkom terug, Admin</p>
           </div>
           <nav class="side-nav">
             <a class="side-nav__item active" href="./index.html">Overzicht</a>
@@ -58,16 +58,52 @@
 
           <section class="workspace-grid workspace-grid--summary">
             <article class="surface">
-              <h2 class="surface__title">Statusverdeling</h2>
+              <div class="surface__header-row">
+                <h2 class="surface__title">Statusverdeling</h2>
+                <a class="surface__linkout" href="./afspraken.html">Naar afspraken →</a>
+              </div>
               <div id="status-breakdown-list" class="admin-list"></div>
             </article>
             <article class="surface surface--wide">
-              <h2 class="surface__title">Aankomende afspraken</h2>
+              <div class="surface__header-row">
+                <h2 class="surface__title">Aankomende afspraken</h2>
+                <a class="surface__linkout" href="./afspraken.html">Naar afspraken →</a>
+              </div>
               <div id="upcoming-appointments-list" class="admin-list"></div>
             </article>
           </section>
+
+          <article class="surface surface--calendar">
+            <div class="surface-calendar__header">
+              <h2 class="surface__title">Afsprakenkalender</h2>
+              <div class="surface-calendar__nav" role="group" aria-label="Maand kiezen">
+                <button type="button" id="dashboard-cal-prev" class="btn btn--secondary dashboard-cal-nav-btn" aria-label="Vorige maand">
+                  ←
+                </button>
+                <span id="dashboard-cal-label" class="dashboard-cal-label"></span>
+                <button type="button" id="dashboard-cal-next" class="btn btn--secondary dashboard-cal-nav-btn" aria-label="Volgende maand">
+                  →
+                </button>
+              </div>
+            </div>
+            <p class="surface__subtitle surface__subtitle--calendar">
+              Klik op een dag om de afspraken in een pop-up te bekijken. <a href="./afspraken.html">Alle afspraken beheren</a>
+            </p>
+            <div id="dashboard-calendar-root" class="dashboard-calendar" aria-live="polite"></div>
+            <p id="dashboard-calendar-feedback" class="admin-feedback" role="status"></p>
+          </article>
         </div>
       </section>
+
+      <dialog id="dashboard-cal-dialog" class="admin-cal-dialog" aria-labelledby="dashboard-cal-dialog-title">
+        <div class="admin-cal-dialog__shell">
+          <button type="button" id="dashboard-cal-dialog-close" class="admin-cal-dialog__close" aria-label="Sluiten">
+            ×
+          </button>
+          <h2 id="dashboard-cal-dialog-title" class="admin-cal-dialog__title">Afspraken</h2>
+          <div id="dashboard-cal-dialog-body" class="admin-cal-dialog__body"></div>
+        </div>
+      </dialog>
     </main>
     <script src="../assets/js/admin.js"></script>
   </body>

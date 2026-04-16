@@ -160,14 +160,24 @@ img {
   gap: 1.2rem;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-links button.nav-text-btn {
   text-decoration: none;
   color: rgba(17, 17, 17, 0.74);
   font-weight: 500;
   transition: color 0.25s ease;
 }
 
-.nav-links a:hover {
+.nav-links button.nav-text-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.nav-links a:hover,
+.nav-links button.nav-text-btn:hover {
   color: var(--primary);
 }
 
@@ -710,7 +720,8 @@ img {
     transform: translateY(0);
   }
 
-  .nav-links a {
+  .nav-links a,
+  .nav-links button.nav-text-btn {
     color: rgba(255, 255, 255, 0.86);
   }
 

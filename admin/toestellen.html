@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iFixItEasy | Admin Toestellen</title>
-    <link rel="stylesheet" href="../assets/css/admin.css?v=6" />
+    <link rel="stylesheet" href="../assets/css/admin.css?v=7" />
   </head>
   <body class="admin-body">
     <main class="admin-layout-root">
@@ -52,6 +52,15 @@
             <article class="surface">
               <h2 class="surface__title">Toestel formulier</h2>
               <form id="phone-create-form" class="form-grid form-grid--two">
+                <label class="field-label field-control--wide" for="phoneDeviceCategory">Productcategorie</label>
+                <select id="phoneDeviceCategory" class="field-control field-control--wide" required>
+                  <option value="smartphone">Smartphone</option>
+                  <option value="laptop">Laptop</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="console">Console</option>
+                  <option value="computer">Computer</option>
+                  <option value="watch">Smartwatch</option>
+                </select>
                 <input id="phoneBrand" class="field-control" type="text" placeholder="Merk (bijv. Apple)" required />
                 <input id="phoneModel" class="field-control" type="text" placeholder="Model (bijv. iPhone 14)" required />
                 <input id="phoneImageUrl" class="field-control field-control--wide" type="url" placeholder="Afbeelding URL (optioneel)" />

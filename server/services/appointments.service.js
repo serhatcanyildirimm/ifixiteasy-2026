@@ -60,7 +60,7 @@ const getAdminAppointments = async ({ status, dateFrom, dateTo, query }) => {
   let sql = `SELECT a.id, a.customer_name, a.customer_phone, a.customer_email, a.notes, a.status, a.created_at,
                     p.brand, p.model_name, p.image_url,
                     i.label AS issue_label,
-                    s.slot_date, s.start_time, s.end_time
+                    DATE_FORMAT(s.slot_date, '%Y-%m-%d') AS slot_date, s.start_time, s.end_time
              FROM appointments a
              INNER JOIN phones p ON p.id = a.phone_id
              INNER JOIN issue_types i ON i.id = a.issue_type_id
@@ -89,7 +89,10 @@ const getAdminAppointments = async ({ status, dateFrom, dateTo, query }) => {
     params.push(like, like, like);
   }
 
-  sql += " ORDER BY s.slot_date DESC, s.start_time DESC";
+  const chronological = Boolean(dateFrom && dateTo);
+  sql += chronological
+    ? " ORDER BY s.slot_date ASC, s.start_time ASC"
+    : " ORDER BY s.slot_date DESC, s.start_time DESC";
 
   const [rows] = await pool.query(sql, params);
 
@@ -105,8 +108,14 @@ const updateAppointmentStatus = async (id, status) => {
   );
 };
 
+const deleteAppointment = async (id) => {
+  const [result] = await pool.query("DELETE FROM appointments WHERE id = ?", [id]);
+  return result.affectedRows > 0;
+};
+
 module.exports = {
   createAppointment,
   getAdminAppointments,
   updateAppointmentStatus,
+  deleteAppointment,
 };

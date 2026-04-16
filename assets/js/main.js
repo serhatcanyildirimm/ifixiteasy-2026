@@ -15,6 +15,13 @@ if (menuButton && navLinks) {
       menuButton.setAttribute("aria-expanded", "false");
     });
   });
+
+  navLinks.querySelectorAll("button.nav-text-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+    });
+  });
 }
 
 const observer = new IntersectionObserver(
