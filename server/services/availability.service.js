@@ -1,4 +1,4 @@
-const { pool } = require("../db/mysql");
+const { pool } = require("../db/postgres");
 
 const toDateString = (value) => {
   if (!value) return value;
@@ -75,19 +75,26 @@ const ensureAvailabilityForDate = async (dateValue) => {
   const daySlots = buildDaySlots(slotDate);
   if (!daySlots.length) return;
 
-  const [existing] = await pool.query(
-    "SELECT id FROM availability_slots WHERE slot_date = ? LIMIT 1",
+  const { rows: existing } = await pool.query(
+    "SELECT id FROM availability_slots WHERE slot_date = $1 LIMIT 1",
     [slotDate]
   );
   if (existing.length) {
     return;
   }
 
-  const values = daySlots.map((slot) => [slot.slotDate, slot.startTime, slot.endTime, slot.capacity, 1]);
+  const values = [];
+  const placeholders = daySlots.map((slot, index) => {
+    const offset = index * 5;
+    values.push(slot.slotDate, slot.startTime, slot.endTime, slot.capacity, true);
+    return `($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5})`;
+  });
+
   await pool.query(
     `INSERT INTO availability_slots (slot_date, start_time, end_time, capacity, is_active)
-     VALUES ?`,
-    [values]
+     VALUES ${placeholders.join(", ")}
+     ON CONFLICT (slot_date, start_time, end_time) DO NOTHING`,
+    values
   );
 };
 
@@ -105,15 +112,15 @@ const ensureAvailabilityWindow = async (daysAhead = AUTO_GENERATE_DAYS_AHEAD) =>
 
 const getPublicAvailabilityByDate = async (date) => {
   await ensureAvailabilityForDate(date);
-  const [rows] = await pool.query(
+  const { rows } = await pool.query(
     `SELECT s.id, s.slot_date, s.start_time, s.end_time, s.capacity,
             COUNT(a.id) AS booked_count
      FROM availability_slots s
      LEFT JOIN appointments a
        ON a.slot_id = s.id
        AND a.status IN ('pending', 'confirmed')
-     WHERE s.slot_date = ?
-       AND s.is_active = 1
+     WHERE s.slot_date = $1
+       AND s.is_active = TRUE
      GROUP BY s.id
      HAVING booked_count < s.capacity
      ORDER BY s.start_time ASC`,
@@ -125,7 +132,7 @@ const getPublicAvailabilityByDate = async (date) => {
 
 const getAdminAvailability = async () => {
   await ensureAvailabilityWindow();
-  const [rows] = await pool.query(
+  const { rows } = await pool.query(
     `SELECT id, slot_date, start_time, end_time, capacity, is_active, updated_at
      FROM availability_slots
      ORDER BY slot_date ASC, start_time ASC`
@@ -135,29 +142,30 @@ const getAdminAvailability = async () => {
 };
 
 const createAvailability = async ({ slotDate, startTime, endTime, capacity }) => {
-  const [result] = await pool.query(
+  const { rows } = await pool.query(
     `INSERT INTO availability_slots (slot_date, start_time, end_time, capacity, is_active)
-     VALUES (?, ?, ?, ?, 1)`,
+     VALUES ($1, $2, $3, $4, TRUE)
+     RETURNING id`,
     [toDateString(slotDate), startTime, endTime, capacity]
   );
 
-  return result.insertId;
+  return rows[0].id;
 };
 
 const updateAvailability = async (id, { slotDate, startTime, endTime, capacity, isActive }) => {
   await pool.query(
     `UPDATE availability_slots
-     SET slot_date = ?, start_time = ?, end_time = ?, capacity = ?, is_active = ?
-     WHERE id = ?`,
-    [toDateString(slotDate), startTime, endTime, capacity, isActive ? 1 : 0, id]
+     SET slot_date = $1, start_time = $2, end_time = $3, capacity = $4, is_active = $5
+     WHERE id = $6`,
+    [toDateString(slotDate), startTime, endTime, capacity, Boolean(isActive), id]
   );
 };
 
 const toggleDayAvailability = async (date, isActive) => {
   const slotDate = toDateString(date);
   await pool.query(
-    "UPDATE availability_slots SET is_active = ? WHERE slot_date = ?",
-    [isActive ? 1 : 0, slotDate]
+    "UPDATE availability_slots SET is_active = $1 WHERE slot_date = $2",
+    [Boolean(isActive), slotDate]
   );
 };
 

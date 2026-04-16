@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const { pool } = require("./db/mysql");
+const { pool } = require("./db/postgres");
 const publicRoutes = require("./routes/public.routes");
 const adminRoutes = require("./routes/admin.routes");
 const { ensureDefaultAdmin } = require("./services/admin-auth.service");

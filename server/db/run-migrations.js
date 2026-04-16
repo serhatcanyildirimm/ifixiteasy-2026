@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const { pool } = require("./mysql");
+const { pool } = require("./postgres");
 
 const splitSqlStatements = (sql) =>
   sql
@@ -28,8 +28,10 @@ const run = async () => {
         try {
           await pool.query(statement);
         } catch (error) {
-          const isDuplicateColumn = error.code === "ER_DUP_FIELDNAME";
-          if (!isDuplicateColumn) {
+          const isDuplicateColumn = error.code === "42701";
+          const isDuplicateTable = error.code === "42P07";
+          const isDuplicateObject = error.code === "42710";
+          if (!isDuplicateColumn && !isDuplicateTable && !isDuplicateObject) {
             throw error;
           }
         }

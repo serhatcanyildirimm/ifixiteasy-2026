@@ -1,6 +1,6 @@
-# Docker setup (MySQL)
+# Docker setup (PostgreSQL)
 
-## 1) Start MySQL container
+## 1) Start PostgreSQL container
 
 ```powershell
 docker compose up -d
@@ -12,18 +12,14 @@ docker compose up -d
 docker compose ps
 ```
 
-Wacht tot de `mysql` service `healthy` is.
+Wacht tot de database-service `healthy` is.
 
 ## 3) Zorg dat je `.env` matcht
 
-Gebruik deze waarden in je `.env`:
+Gebruik deze waarde in je `.env`:
 
 ```env
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=root123
-DB_NAME=ifixiteasy
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/ifixiteasy
 ```
 
 ## 4) Start de app

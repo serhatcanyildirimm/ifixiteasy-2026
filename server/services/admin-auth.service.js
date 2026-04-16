@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { pool } = require("../db/mysql");
+const { pool } = require("../db/postgres");
 
 const ensureDefaultAdmin = async () => {
   const defaultEmail = process.env.ADMIN_DEFAULT_EMAIL;
@@ -8,27 +8,29 @@ const ensureDefaultAdmin = async () => {
 
   if (!defaultEmail || !defaultPassword) return;
 
-  const [[existing]] = await pool.query("SELECT id FROM admin_users LIMIT 1");
+  const { rows: existingRows } = await pool.query("SELECT id FROM admin_users LIMIT 1");
+  const [existing] = existingRows;
   if (existing) return;
 
   const passwordHash = await bcrypt.hash(defaultPassword, 10);
 
   await pool.query(
     `INSERT INTO admin_users (email, password_hash, role, is_active)
-     VALUES (?, ?, 'admin', 1)`,
+     VALUES ($1, $2, 'admin', TRUE)`,
     [defaultEmail, passwordHash]
   );
 };
 
 const loginAdmin = async ({ email, password }) => {
-  const [[admin]] = await pool.query(
+  const { rows: adminRows } = await pool.query(
     `SELECT id, email, password_hash, role, is_active
      FROM admin_users
-     WHERE email = ?`,
+     WHERE email = $1`,
     [email]
   );
+  const [admin] = adminRows;
 
-  if (!admin || admin.is_active !== 1) {
+  if (!admin || admin.is_active !== true) {
     throw new Error("Onjuiste inloggegevens.");
   }
 
@@ -51,14 +53,15 @@ const loginAdmin = async ({ email, password }) => {
 };
 
 const changeAdminPassword = async ({ adminId, currentPassword, newPassword }) => {
-  const [[admin]] = await pool.query(
+  const { rows: adminRows } = await pool.query(
     `SELECT id, password_hash, is_active
      FROM admin_users
-     WHERE id = ?`,
+     WHERE id = $1`,
     [adminId]
   );
+  const [admin] = adminRows;
 
-  if (!admin || admin.is_active !== 1) {
+  if (!admin || admin.is_active !== true) {
     throw new Error("Admin account niet beschikbaar.");
   }
 
@@ -78,8 +81,8 @@ const changeAdminPassword = async ({ adminId, currentPassword, newPassword }) =>
   const newHash = await bcrypt.hash(newPassword, 10);
   await pool.query(
     `UPDATE admin_users
-     SET password_hash = ?
-     WHERE id = ?`,
+     SET password_hash = $1
+     WHERE id = $2`,
     [newHash, adminId]
   );
 };

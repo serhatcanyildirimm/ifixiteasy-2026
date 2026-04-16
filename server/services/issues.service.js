@@ -1,10 +1,10 @@
-const { pool } = require("../db/mysql");
+const { pool } = require("../db/postgres");
 
 const getPublicIssues = async () => {
-  const [rows] = await pool.query(
+  const { rows } = await pool.query(
     `SELECT id, code, label
      FROM issue_types
-     WHERE is_active = 1
+     WHERE is_active = TRUE
      ORDER BY label ASC`
   );
 
