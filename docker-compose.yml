@@ -1,22 +1,21 @@
 services:
-  mysql:
-    image: mysql:8.4
-    container_name: ifixiteasy-mysql
+  postgres:
+    image: postgres:17
+    container_name: ifixiteasy-postgres
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: ifixiteasy
-      MYSQL_ROOT_HOST: "%"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ifixiteasy
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./server/db/migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-proot123"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ifixiteasy"]
       interval: 10s
       timeout: 5s
       retries: 10
 
 volumes:
-  mysql_data:
+  postgres_data:

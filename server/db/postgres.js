@@ -3,7 +3,6 @@ const pkg = require("pg");
 const { Pool } = pkg;
 
 const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
-const isProduction = process.env.NODE_ENV === "production";
 
 if (!hasDatabaseUrl) {
   throw new Error("DATABASE_URL ontbreekt.");
@@ -11,11 +10,9 @@ if (!hasDatabaseUrl) {
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: isProduction
-    ? {
-        rejectUnauthorized: false,
-      }
-    : false,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const query = (text, params) => pool.query(text, params);

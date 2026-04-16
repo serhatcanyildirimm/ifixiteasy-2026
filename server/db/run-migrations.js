@@ -6,14 +6,13 @@ dotenv.config();
 
 const { pool } = require("./postgres");
 
-const splitSqlStatements = (sql) =>
-  sql
-    .split(";")
-    .map((statement) => statement.trim())
-    .filter(Boolean);
-
 const run = async () => {
+  let client;
+
   try {
+    client = await pool.connect();
+    await client.query("SELECT 1");
+
     const migrationsDirectory = path.resolve(__dirname, "migrations");
     const migrationFiles = (await fs.readdir(migrationsDirectory))
       .filter((fileName) => fileName.endsWith(".sql"))
@@ -22,27 +21,39 @@ const run = async () => {
     for (const migrationFile of migrationFiles) {
       const migrationPath = path.resolve(migrationsDirectory, migrationFile);
       const sql = await fs.readFile(migrationPath, "utf8");
-      const statements = splitSqlStatements(sql);
+      console.log(`Voer migratie uit: ${migrationFile}`);
 
-      for (const statement of statements) {
-        try {
-          await pool.query(statement);
-        } catch (error) {
-          const isDuplicateColumn = error.code === "42701";
-          const isDuplicateTable = error.code === "42P07";
-          const isDuplicateObject = error.code === "42710";
-          if (!isDuplicateColumn && !isDuplicateTable && !isDuplicateObject) {
-            throw error;
-          }
-        }
+      await client.query("BEGIN");
+
+      try {
+        await client.query(sql);
+        await client.query("COMMIT");
+      } catch (error) {
+        await client.query("ROLLBACK");
+        throw new Error(`Migratie ${migrationFile} mislukt: ${error.message}`);
       }
     }
 
+    const { rows } = await client.query("SELECT to_regclass('public.admin_users') AS admin_users_table");
+    const adminUsersTableExists = Boolean(rows[0]?.admin_users_table);
+
+    if (!adminUsersTableExists) {
+      throw new Error("Tabel admin_users ontbreekt na uitvoeren van de migraties.");
+    }
+
     console.log(`Migraties succesvol uitgevoerd (${migrationFiles.length} bestanden).`);
-    process.exit(0);
   } catch (error) {
     console.error("Migraties mislukt:", error.message);
-    process.exit(1);
+    if (error.stack) {
+      console.error(error.stack);
+    }
+    process.exitCode = 1;
+  } finally {
+    if (client) {
+      client.release();
+    }
+
+    await pool.end();
   }
 };
 
