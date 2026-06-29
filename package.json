@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon server/app.js",
     "start": "node server/app.js",
-    "db:migrate": "node server/db/run-migrations.js"
+    "db:migrate": "node server/db/run-migrations.js",
+    "mail:test": "node server/scripts/send-test-mail.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "express-rate-limit": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.1.1",
+    "nodemailer": "^8.0.10",
     "pg": "^8.20.0"
   },
   "devDependencies": {

@@ -67,6 +67,33 @@ const updatePhone = async (id, { brand, modelName, isActive, imageUrl, deviceCat
   );
 };
 
+// Vindt-of-maakt een placeholder-toestel voor een door de klant zelf getypte
+// toestelnaam (merk 'Overig', is_active = FALSE zodat het niet in de publieke
+// lijst komt, maar de afspraak wel een geldige phone_id heeft).
+const resolveCustomPhoneId = async (name, deviceCategory) => {
+  const trimmed = String(name || "").trim().slice(0, 120);
+  if (!trimmed) {
+    throw new Error("Toestelnaam is verplicht.");
+  }
+  const category = normalizeDeviceCategory(deviceCategory);
+  const { rows: existing } = await pool.query(
+    `SELECT id FROM phones
+     WHERE brand = 'Overig' AND model_name = $1 AND device_category = $2
+     LIMIT 1`,
+    [trimmed, category]
+  );
+  if (existing[0]) {
+    return existing[0].id;
+  }
+  const { rows } = await pool.query(
+    `INSERT INTO phones (brand, model_name, image_url, device_category, is_active)
+     VALUES ('Overig', $1, NULL, $2, FALSE)
+     RETURNING id`,
+    [trimmed, category]
+  );
+  return rows[0].id;
+};
+
 module.exports = {
   DEVICE_CATEGORIES,
   normalizeDeviceCategory,
@@ -74,4 +101,5 @@ module.exports = {
   getAdminPhones,
   createPhone,
   updatePhone,
+  resolveCustomPhoneId,
 };

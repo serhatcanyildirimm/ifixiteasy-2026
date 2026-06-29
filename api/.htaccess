@@ -1,0 +1,23 @@
+# Stuur alle /api/* verzoeken naar de PHP front controller.
+# (Behalve echte bestanden, zoals deze .htaccess zelf.)
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Geef de Authorization-header door aan PHP (nodig voor het admin-token).
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Bestaande bestanden/mappen direct serveren.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Al het overige naar index.php.
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Voorkom dat config/PHP-bronbestanden ooit als tekst worden uitgeserveerd.
+<FilesMatch "\.(sql)$">
+    Require all denied
+</FilesMatch>

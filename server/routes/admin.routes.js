@@ -17,9 +17,11 @@ const {
 } = require("../services/availability.service");
 const {
   getAdminAppointments,
+  getAppointmentById,
   updateAppointmentStatus,
   deleteAppointment,
 } = require("../services/appointments.service");
+const { sendAppointmentStatusChangeEmails } = require("../services/mail.service");
 const { getDashboardSummary } = require("../services/dashboard.service");
 
 const router = express.Router();
@@ -198,7 +200,17 @@ router.patch("/appointments/:id/status", async (req, res) => {
     return res.status(400).json({ message: "Ongeldige status." });
   }
 
-  await updateAppointmentStatus(id, status);
+  const { previousStatus } = await updateAppointmentStatus(id, status);
+
+  const appointment = await getAppointmentById(id);
+  if (appointment) {
+    try {
+      await sendAppointmentStatusChangeEmails(appointment, previousStatus);
+    } catch (error) {
+      console.error(`Statusmail voor afspraak #${id} mislukt:`, error.message);
+    }
+  }
+
   return res.status(204).send();
 });
 

@@ -18,6 +18,7 @@
   ];
 
   const FALLBACK_IMG = "https://placehold.co/80x80?text=Toestel";
+  const CUSTOM_ISSUE_VALUE = "__custom__";
 
   const dialog = document.getElementById("booking-modal");
   if (!dialog) return;
@@ -34,11 +35,17 @@
     globalSearch: document.getElementById("booking-global-search-input"),
     globalResults: document.getElementById("booking-global-search-results"),
     brandTiles: document.getElementById("booking-brand-tiles"),
+    modelPicker: document.getElementById("booking-model-picker"),
     modelSearch: document.getElementById("booking-model-search"),
     modelList: document.getElementById("booking-model-list"),
+    customToggle: document.getElementById("booking-custom-toggle"),
+    customDevice: document.getElementById("booking-custom-device"),
+    customInput: document.getElementById("booking-custom-device-input"),
+    customCancel: document.getElementById("booking-custom-cancel"),
     modelNext: document.getElementById("booking-model-next"),
     selectedPhoneLabel: document.getElementById("booking-selected-phone-label"),
     issueSelect: document.getElementById("booking-issue-type"),
+    issueCustom: document.getElementById("booking-issue-custom"),
     dateInput: document.getElementById("booking-appointment-date"),
     slotsWrap: document.getElementById("booking-time-slots"),
     form: document.getElementById("booking-form"),
@@ -53,6 +60,7 @@
   let selectedBrandGroup = null;
   let phonesSubset = [];
   let selectedPhoneId = null;
+  let customDeviceName = "";
   let selectedSlotId = null;
   let modelListActiveIndex = -1;
 
@@ -115,6 +123,7 @@
     selectedBrandGroup = null;
     phonesSubset = [];
     selectedPhoneId = null;
+    customDeviceName = "";
     selectedSlotId = null;
     modelListActiveIndex = -1;
     if (els.inlineMsg) {
@@ -151,11 +160,12 @@
     if (els.inlineMsg) els.inlineMsg.hidden = true;
     selectedCategory = cat;
     const list = phonesInCategory(cat);
+    // Geen toestellen in deze categorie: laat de klant zelf het toestel typen.
     if (!list.length) {
-      if (els.inlineMsg) {
-        els.inlineMsg.hidden = false;
-        els.inlineMsg.innerHTML = `Voor <strong>${CATEGORY_LABELS[cat] || cat}</strong> zijn er nog geen toestellen om online te boeken. Bel ons op <a href="tel:+31655820353">+31 6 55 82 03 53</a> voor de mogelijkheden.`;
-      }
+      selectedBrandGroup = null;
+      phonesSubset = [];
+      void goForward("model");
+      setupModelStep({ forceCustom: true });
       return;
     }
     if (cat === "smartphone") {
@@ -201,6 +211,19 @@
     if (hasIphone) add("iphone", "iPhone", "bi-apple");
     if (hasSamsung) add("samsung", "Samsung", "bi-android2");
     if (hasOther) add("other", "Overig merk", "bi-three-dots");
+
+    // Altijd: laat de klant zelf het toestel typen als het merk er niet bij staat.
+    const customBtn = document.createElement("button");
+    customBtn.type = "button";
+    customBtn.className = "booking-tile booking-tile--ghost";
+    customBtn.innerHTML = `<i class="bi bi-pencil-square" aria-hidden="true"></i><span>Anders / typ zelf</span>`;
+    customBtn.addEventListener("click", () => {
+      selectedBrandGroup = "custom";
+      phonesSubset = [];
+      goForward("model");
+      setupModelStep({ forceCustom: true });
+    });
+    els.brandTiles.appendChild(customBtn);
   };
 
   const getFilteredModels = (query) => {
@@ -239,8 +262,9 @@
       btn.appendChild(span);
       btn.addEventListener("click", () => {
         selectedPhoneId = phone.id;
+        customDeviceName = "";
         renderModelOptions(els.modelSearch?.value || "");
-        if (els.modelNext) els.modelNext.disabled = false;
+        refreshModelNext();
       });
       btn.addEventListener("mouseenter", () => {
         els.modelList.querySelectorAll(".booking-combobox__option").forEach((n) => n.classList.remove("is-active"));
@@ -261,11 +285,49 @@
     }
   };
 
-  const setupModelStep = () => {
+  const refreshModelNext = () => {
+    if (els.modelNext) {
+      els.modelNext.disabled = !selectedPhoneId && customDeviceName.trim() === "";
+    }
+  };
+
+  const closeCustomDevice = () => {
+    customDeviceName = "";
+    if (els.customInput) els.customInput.value = "";
+    if (els.customDevice) els.customDevice.hidden = true;
+    if (els.modelPicker) els.modelPicker.hidden = false;
+    if (els.customToggle) els.customToggle.hidden = false;
+    refreshModelNext();
+  };
+
+  const openCustomDevice = () => {
     selectedPhoneId = null;
+    if (els.modelPicker) els.modelPicker.hidden = true;
+    if (els.customToggle) els.customToggle.hidden = true;
+    if (els.customDevice) els.customDevice.hidden = false;
+    if (els.customInput) {
+      els.customInput.value = customDeviceName;
+      els.customInput.focus();
+    }
+    refreshModelNext();
+  };
+
+  const setupModelStep = (options = {}) => {
+    selectedPhoneId = null;
+    customDeviceName = "";
     if (els.modelSearch) els.modelSearch.value = "";
-    if (els.modelNext) els.modelNext.disabled = true;
+    if (els.customInput) els.customInput.value = "";
+    // Heeft deze stap modellen om uit te kiezen? Zo niet, ga direct naar typen.
+    const hasModels = phonesSubset.length > 0;
+    if (els.modelPicker) els.modelPicker.hidden = !hasModels;
+    if (els.customToggle) els.customToggle.hidden = !hasModels;
+    if (els.customDevice) els.customDevice.hidden = true;
     renderModelOptions("");
+    if (!hasModels || options.forceCustom) {
+      openCustomDevice();
+    } else {
+      refreshModelNext();
+    }
   };
 
   const goForward = async (next) => {
@@ -287,7 +349,13 @@
   const prepareBookingStep = async () => {
     const phone = phonesCatalog.find((p) => p.id === selectedPhoneId);
     if (els.selectedPhoneLabel) {
-      els.selectedPhoneLabel.textContent = phone ? `${phone.brand} ${phone.model_name}` : "—";
+      if (phone) {
+        els.selectedPhoneLabel.textContent = `${phone.brand} ${phone.model_name}`;
+      } else if (customDeviceName.trim()) {
+        els.selectedPhoneLabel.textContent = `${customDeviceName.trim()} (zelf opgegeven)`;
+      } else {
+        els.selectedPhoneLabel.textContent = "—";
+      }
     }
     try {
       const issues = await apiFetch("/api/public/issues");
@@ -299,6 +367,15 @@
           opt.textContent = it.label;
           els.issueSelect.appendChild(opt);
         });
+        const customOpt = document.createElement("option");
+        customOpt.value = CUSTOM_ISSUE_VALUE;
+        customOpt.textContent = "Anders, namelijk…";
+        els.issueSelect.appendChild(customOpt);
+      }
+      // Custom-probleemveld resetten/verbergen.
+      if (els.issueCustom) {
+        els.issueCustom.value = "";
+        els.issueCustom.hidden = true;
       }
     } catch (e) {
       setFeedback(e.message, "error");
@@ -419,8 +496,24 @@
 
   els.modelSearch?.addEventListener("input", () => {
     selectedPhoneId = null;
-    if (els.modelNext) els.modelNext.disabled = true;
+    refreshModelNext();
     renderModelOptions(els.modelSearch.value);
+  });
+
+  els.customToggle?.addEventListener("click", openCustomDevice);
+  els.customCancel?.addEventListener("click", closeCustomDevice);
+
+  els.customInput?.addEventListener("input", () => {
+    customDeviceName = els.customInput.value;
+    selectedPhoneId = null;
+    refreshModelNext();
+  });
+
+  els.customInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && customDeviceName.trim() !== "") {
+      e.preventDefault();
+      els.modelNext?.click();
+    }
   });
 
   els.modelSearch?.addEventListener("keydown", (e) => {
@@ -442,8 +535,19 @@
   });
 
   els.modelNext?.addEventListener("click", async () => {
-    if (!selectedPhoneId) return;
+    if (!selectedPhoneId && customDeviceName.trim() === "") return;
     await goForward("booking");
+  });
+
+  els.issueSelect?.addEventListener("change", () => {
+    if (!els.issueCustom) return;
+    const isCustom = els.issueSelect.value === CUSTOM_ISSUE_VALUE;
+    els.issueCustom.hidden = !isCustom;
+    if (isCustom) {
+      els.issueCustom.focus();
+    } else {
+      els.issueCustom.value = "";
+    }
   });
 
   els.dateInput?.addEventListener("change", async () => {
@@ -463,8 +567,8 @@
 
   els.form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!selectedPhoneId) {
-      setFeedback("Kies een toestel.", "error");
+    if (!selectedPhoneId && customDeviceName.trim() === "") {
+      setFeedback("Kies een toestel of typ je toestelnaam.", "error");
       return;
     }
     if (!selectedSlotId) {
@@ -472,15 +576,34 @@
       return;
     }
     const fd = new FormData(els.form);
+    const issueValue = fd.get("issueTypeId")?.toString() || "";
+    const customIssue = els.issueCustom?.value.trim() || "";
+    if (!issueValue) {
+      setFeedback("Kies een probleem.", "error");
+      return;
+    }
+    if (issueValue === CUSTOM_ISSUE_VALUE && customIssue === "") {
+      setFeedback("Omschrijf kort je probleem.", "error");
+      return;
+    }
     const payload = {
       customerName: fd.get("customerName")?.toString().trim(),
       customerPhone: fd.get("customerPhone")?.toString().trim(),
       customerEmail: fd.get("customerEmail")?.toString().trim(),
-      phoneId: Number(selectedPhoneId),
-      issueTypeId: Number(fd.get("issueTypeId")),
       notes: fd.get("notes")?.toString().trim(),
       slotId: selectedSlotId,
     };
+    if (selectedPhoneId) {
+      payload.phoneId = Number(selectedPhoneId);
+    } else {
+      payload.customDeviceName = customDeviceName.trim();
+      payload.deviceCategory = selectedCategory || "smartphone";
+    }
+    if (issueValue === CUSTOM_ISSUE_VALUE) {
+      payload.customIssueLabel = customIssue;
+    } else {
+      payload.issueTypeId = Number(issueValue);
+    }
     try {
       const result = await apiFetch("/api/public/appointments", {
         method: "POST",
@@ -488,6 +611,10 @@
       });
       setFeedback(`${result.message} Referentie: #${result.appointmentId}`, "success");
       els.form.reset();
+      if (els.issueCustom) {
+        els.issueCustom.value = "";
+        els.issueCustom.hidden = true;
+      }
       selectedSlotId = null;
       if (els.slotsWrap) els.slotsWrap.innerHTML = "";
       if (els.dateInput) {

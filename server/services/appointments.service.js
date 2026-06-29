@@ -108,12 +108,17 @@ const getAdminAppointments = async ({ status, dateFrom, dateTo, query }) => {
 };
 
 const updateAppointmentStatus = async (id, status) => {
+  const { rows } = await pool.query("SELECT status FROM appointments WHERE id = $1", [id]);
+  const previousStatus = rows[0]?.status ?? null;
+
   await pool.query(
     `UPDATE appointments
      SET status = $1
      WHERE id = $2`,
     [status, id]
   );
+
+  return { previousStatus };
 };
 
 const deleteAppointment = async (id) => {
@@ -121,8 +126,26 @@ const deleteAppointment = async (id) => {
   return result.rowCount > 0;
 };
 
+const getAppointmentById = async (id) => {
+  const { rows } = await pool.query(
+    `SELECT a.id, a.customer_name, a.customer_phone, a.customer_email, a.notes, a.status,
+            p.brand, p.model_name,
+            i.label AS issue_label,
+            TO_CHAR(s.slot_date, 'YYYY-MM-DD') AS slot_date, s.start_time, s.end_time
+     FROM appointments a
+     INNER JOIN phones p ON p.id = a.phone_id
+     INNER JOIN issue_types i ON i.id = a.issue_type_id
+     INNER JOIN availability_slots s ON s.id = a.slot_id
+     WHERE a.id = $1`,
+    [id]
+  );
+
+  return rows[0] || null;
+};
+
 module.exports = {
   createAppointment,
+  getAppointmentById,
   getAdminAppointments,
   updateAppointmentStatus,
   deleteAppointment,

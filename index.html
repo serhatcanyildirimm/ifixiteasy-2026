@@ -34,7 +34,7 @@
           <li><a href="#reviews">Reviews</a></li>
           <li><button type="button" class="nav-text-btn" data-open-booking>Afspraak</button></li>
         </ul>
-        <a class="nav-phone" href="tel:+31655820353" aria-label="Bel ons op +31 6 55 82 03 53">+31 6 55 82 03 53</a>
+        <a class="nav-phone" href="tel:+31655820353" aria-label="Bel ons op +31 6 55 82 03 53"><i class="bi bi-telephone-fill" aria-hidden="true"></i> +31 6 55 82 03 53</a>
       </nav>
     </header>
 
@@ -50,9 +50,16 @@
             </h1>
             <p class="hero-subtext" id="hero-subtext">De meeste reparaties zijn binnen 30 minuten klaar</p>
             <div class="hero-actions">
-              <button type="button" class="btn btn-primary" data-open-booking>Reparatie Boeken</button>
+              <button type="button" class="btn btn-primary" data-open-booking>
+                <i class="bi bi-calendar2-check" aria-hidden="true"></i> Reparatie boeken
+              </button>
+              <a class="btn-ghost" href="#services">Bekijk reparaties <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
             </div>
-            
+            <ul class="trust-badges">
+              <li class="trust-badge"><i class="bi bi-stopwatch" aria-hidden="true"></i> Klaar in ±30 min</li>
+              <li class="trust-badge"><i class="bi bi-shield-check" aria-hidden="true"></i> Garantie op reparatie</li>
+              <li class="trust-badge"><span class="stars-inline">★★★★★</span> 4,8 / 5 (100+ klanten)</li>
+            </ul>
           </div>
           <div class="hero-media reveal">
             <div class="hero-fade-slider" id="hero-fade-slider">
@@ -98,6 +105,13 @@
               </article>
               <div class="hero-fade-dots" aria-label="Hero slider paginatie"></div>
             </div>
+            <div class="hero-rating-chip" aria-hidden="true">
+              <strong>4,8</strong>
+              <span>
+                <span class="stars-inline">★★★★★</span>
+                <small>100+ tevreden klanten</small>
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -133,11 +147,35 @@
         </div>
       </section>
 
-      <section class="section" id="services">
+      <section class="section" id="how">
+        <div class="container">
+          <div class="section-heading center reveal">
+            <p class="eyebrow"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i> Zo werkt het</p>
+            <h2>In drie stappen weer een werkend toestel</h2>
+            <p class="lead">Geen gedoe: kies je toestel, plan een moment dat jou uitkomt en wij doen de rest.</p>
+          </div>
+          <div class="process-grid">
+            <article class="process-step reveal">
+              <h3>Kies je toestel</h3>
+              <p>Selecteer je merk en model — of typ het zelf als je toestel er niet bij staat.</p>
+            </article>
+            <article class="process-step reveal">
+              <h3>Plan je afspraak</h3>
+              <p>Kies het probleem en een vrij tijdslot. Je krijgt direct een bevestiging.</p>
+            </article>
+            <article class="process-step reveal">
+              <h3>Klaar terwijl je wacht</h3>
+              <p>De meeste reparaties zijn binnen 30 minuten klaar, mét garantie.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="services">
         <div class="container">
           <div class="section-heading reveal">
-            <p class="eyebrow">Onze Reparaties</p>
-            <h2>Clean, Snelle En Betrouwbare Reparaties</h2>
+            <p class="eyebrow"><i class="bi bi-tools" aria-hidden="true"></i> Onze reparaties</p>
+            <h2>Snelle en betrouwbare reparaties</h2>
           </div>
           <div class="repairs-layout">
             <div class="repairs-media reveal">
@@ -177,38 +215,43 @@
         </div>
       </section>
 
-      <section class="section section-alt" id="why-us">
+      <section class="section" id="why-us">
         <div class="container">
           <div class="section-heading reveal">
-            <p class="eyebrow">Waarom Kiezen Voor Ons</p>
-            <h2>Snelle Service. Eerlijke Prijzen. Gegarandeerde Kwaliteit.</h2>
+            <p class="eyebrow"><i class="bi bi-patch-check-fill" aria-hidden="true"></i> Waarom kiezen voor ons</p>
+            <h2>Snelle service, eerlijke prijzen, gegarandeerde kwaliteit</h2>
           </div>
           <div class="feature-grid">
             <article class="feature reveal">
-              <h3>Zelfde Dag Gerepareerd</h3>
+              <span class="feature-icon" aria-hidden="true"><i class="bi bi-stopwatch"></i></span>
+              <h3>Zelfde dag gerepareerd</h3>
               <p>De meest voorkomende problemen worden opgelost terwijl je wacht.</p>
             </article>
             <article class="feature reveal">
-              <h3>Garantie Inbegrepen</h3>
+              <span class="feature-icon" aria-hidden="true"><i class="bi bi-shield-check"></i></span>
+              <h3>Garantie inbegrepen</h3>
               <p>Elke reparatie bevat standaard garantie voor extra zekerheid.</p>
             </article>
             <article class="feature reveal">
-              <h3>Ervaren Technici</h3>
+              <span class="feature-icon" aria-hidden="true"><i class="bi bi-wrench-adjustable"></i></span>
+              <h3>Ervaren technici</h3>
               <p>Vakkundig team met jaren ervaring in hardware en software.</p>
             </article>
             <article class="feature reveal">
-              <h3>Betaalbare Prijzen</h3>
+              <span class="feature-icon" aria-hidden="true"><i class="bi bi-tag"></i></span>
+              <h3>Betaalbare prijzen</h3>
               <p>Transparante tarieven zonder verborgen kosten.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section" id="reviews">
+      <section class="section section-alt" id="reviews">
         <div class="container">
           <div class="section-heading reveal">
-            <p class="eyebrow">Klantbeoordelingen</p>
-            <h2>Klanten Vertrouwen Op iFixItEasy</h2>
+            <p class="eyebrow"><i class="bi bi-star-fill" aria-hidden="true"></i> Klantbeoordelingen</p>
+            <h2>Klanten vertrouwen op iFixItEasy</h2>
+            <span class="reviews-meta"><span class="stars">★★★★★</span> 4,8 uit 5 — op basis van 100+ reparaties</span>
           </div>
           <div class="review-grid">
             <article class="review-card reveal">
@@ -233,9 +276,11 @@
       <section class="section cta-section" id="cta">
         <div class="container reveal">
           <div class="cta-panel">
-            <h2>Laat je telefoon vandaag nog repareren</h2>
-            <p>Plan direct een afspraak en laat je toestel weer perfect werken.</p>
-            <button type="button" class="btn btn-accent" data-open-booking>Afspraak Inplannen</button>
+            <h2>Laat je toestel vandaag nog repareren</h2>
+            <p>Plan direct een afspraak en laat je toestel weer perfect werken — meestal binnen 30 minuten klaar.</p>
+            <button type="button" class="btn btn-accent" data-open-booking>
+              <i class="bi bi-calendar2-check" aria-hidden="true"></i> Afspraak inplannen
+            </button>
           </div>
         </div>
       </section>
@@ -272,7 +317,7 @@
 
           <div id="booking-step-model" class="booking-panel" hidden>
             <p class="booking-step-kicker">Stap 3 — Model</p>
-            <div class="booking-combobox-block">
+            <div id="booking-model-picker" class="booking-combobox-block">
               <label for="booking-model-search">Zoek en kies je model</label>
               <input
                 id="booking-model-search"
@@ -284,6 +329,29 @@
               />
               <ul id="booking-model-list" class="booking-combobox__list" role="listbox" aria-label="Modellen"></ul>
             </div>
+
+            <button type="button" id="booking-custom-toggle" class="booking-link-btn">
+              <i class="bi bi-pencil-square" aria-hidden="true"></i>
+              Staat je toestel er niet bij? Typ het zelf
+            </button>
+
+            <div id="booking-custom-device" class="booking-custom-device" hidden>
+              <label for="booking-custom-device-input">Naam van je toestel</label>
+              <input
+                id="booking-custom-device-input"
+                type="text"
+                autocomplete="off"
+                placeholder="Bijv. Google Pixel 8, Xiaomi 13, iPad Air 2022…"
+              />
+              <p class="booking-hint" style="margin-top: 0.5rem">
+                Geen probleem als je toestel niet in de lijst staat — typ het merk en model en wij regelen de rest.
+              </p>
+              <button type="button" id="booking-custom-cancel" class="booking-link-btn">
+                <i class="bi bi-arrow-left-short" aria-hidden="true"></i>
+                Terug naar de lijst
+              </button>
+            </div>
+
             <button type="button" id="booking-model-next" class="booking-next-btn" disabled>Volgende</button>
           </div>
 
@@ -296,6 +364,13 @@
                 <select id="booking-issue-type" name="issueTypeId" required>
                   <option value="">Laden…</option>
                 </select>
+                <input
+                  id="booking-issue-custom"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Omschrijf kort wat er aan de hand is…"
+                  hidden
+                />
               </div>
               <div>
                 <label for="booking-appointment-date">Datum</label>
@@ -327,7 +402,7 @@
           </div>
         </div>
         <div class="booking-wizard-footer">
-          <button type="button" id="booking-back-btn" data-booking-back hidden>Terug</button>
+          <button type="button" id="booking-back-btn" data-booking-back hidden><i class="bi bi-chevron-left" aria-hidden="true"></i> Terug</button>
         </div>
       </div>
     </dialog>
@@ -340,12 +415,12 @@
         </div>
         <div>
           <h4>Contact</h4>
-          <p>+31 6 55 82 03 53</p>
-          <p>Info@ifixiteasy.nl</p>
+          <p><a href="tel:+31655820353">+31 6 55 82 03 53</a></p>
+          <p><a href="mailto:info@ifixiteasy.nl">info@ifixiteasy.nl</a></p>
         </div>
         <div>
           <h4>Locatie</h4>
-          <p>Troelstralaan 37</p>
+          <p><a href="https://maps.google.com/?q=Troelstralaan+37+7204+LC+Zutphen" target="_blank" rel="noopener">Troelstralaan 37</a></p>
           <p>7204 LC Zutphen</p>
         </div>
         <div>
@@ -358,9 +433,9 @@
       <div class="footer-bottom container">
         <p>© 2026 iFixiteasy.nl. Alle rechten voorbehouden. KVK: 69787611</p>
         <div class="social-links">
-          <a href="#" aria-label="Instagram">Instagram</a>
-          <a href="#" aria-label="Facebook">Facebook</a>
-          <a href="#" aria-label="WhatsApp">WhatsApp</a>
+          <a href="https://www.instagram.com/ifixiteasy.nl" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i> Instagram</a>
+          <a href="https://www.facebook.com/iFixiteasy.nl" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i> Facebook</a>
+          <a href="https://wa.me/31655820353" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i> WhatsApp</a>
         </div>
       </div>
     </footer>
